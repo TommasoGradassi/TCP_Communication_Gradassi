@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package tcpcommunication;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import  java.net.ServerSocket;
 import java.util.logging.Level;
@@ -50,7 +53,20 @@ public class Server {
     }
   
    public void leggi(){
-       
+       InputStream i;
+       BufferedReader br;
+       String S;
+       try{
+           i=clientSocket.getInputStream();
+           br= new BufferedReader(new InputStreamReader(i));
+           System.out.println("Il messaggio ricevuto e':"+S);
+       }catch(IOException ex){
+           Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null,ex);
+           System.out.println("Il messaggio mandato non e' stato ricevuto");
+       }
+   }
+   public void scrivi(){
+
    }
 
    public void chiudi(){
