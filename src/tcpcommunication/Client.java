@@ -4,9 +4,11 @@
  */
 package tcpcommunication;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,10 +38,36 @@ public class Client {
       }
     }
     public void scrivi(){
+        try{
+            InputStream is;
+            String messaggioIn;
+            Scanner streamIn = null;
+            String messaggioOut;
+            PrintStream streamOut=null;
+            is=socket.getInputStream();
+            messaggioIn=streamIn.nextLine();
+            System.out.println("Messaggio del server"+messaggioIn);
+            messaggioOut="Eccomi";
+            streamOut.println(messaggioOut);
+            streamOut.flush();
+
+        }
+        catch (UnknownHostException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
     public void leggi(){
-
+        PrintWriter streamOut = null;
+            try {
+                OutputStream os = socket.getOutputStream();
+                PrintWriter streamOut = new PrintWriter(os);
+                streamOut.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     public void chiudi(){
      if (socket !=null) {

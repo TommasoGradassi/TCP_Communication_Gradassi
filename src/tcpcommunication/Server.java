@@ -3,12 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package tcpcommunication;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 import  java.net.ServerSocket;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,6 +64,18 @@ public class Server {
        }
    }
    public void scrivi(){
+           try {
+               OutputStream os = clientSocket.getOutputStream();
+               PrintWriter streamOut = new PrintWriter(os);
+               InputStream is = clientSocket.getInputStream();
+               Scanner streamIn = new Scanner(is);
+               System.out.println("messaggio   al client");
+               String messaggioOut = "ciao";
+               streamOut.println(messaggioOut);
+               streamOut.flush();
+           } catch (IOException e) {
+               throw new RuntimeException(e);
+           }
 
    }
 
