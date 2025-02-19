@@ -17,9 +17,15 @@ import java.util.logging.Logger;
  * @author Gradassi Tommaso
  */
 public class Client {
-  String nome;
- String colore;
- Socket socket;
+    String nome;
+    String colore;
+    Socket socket;
+    InputStream is;
+    OutputStream os;
+    PrintWriter streamOut = null;
+    Scanner streamIn = null;
+    String messaggioIn;
+    String messaggioOut;
  public Client(String nome,String colore){
    this.nome=nome;
    this.colore=colore;
@@ -39,18 +45,14 @@ public class Client {
     }
     public void scrivi(){
         try{
-            InputStream is;
-            String messaggioIn;
-            Scanner streamIn = null;
-            String messaggioOut;
-            PrintStream streamOut=null;
-            is=socket.getInputStream();
-            messaggioIn=streamIn.nextLine();
-            System.out.println("Messaggio del server"+messaggioIn);
-            messaggioOut="Eccomi";
-            streamOut.println(messaggioOut);
-            streamOut.flush();
-
+            os=socket.getOutputStream();
+             streamOut=new PrintWriter(os);
+             streamOut.flush();
+             messaggioOut="Eccomi";
+             System.out.println(messaggioOut);
+             streamOut.println(messaggioOut);
+             streamOut.flush();
+             System.out.println(messaggioOut);
         }
         catch (UnknownHostException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,11 +62,11 @@ public class Client {
 
     }
     public void leggi(){
-        PrintWriter streamOut = null;
             try {
-                OutputStream os = socket.getOutputStream();
-                PrintWriter streamOut = new PrintWriter(os);
-                streamOut.flush();
+                is=socket.getInputStream();
+                streamIn=new Scanner(is);
+                messaggioIn=streamIn.nextLine();
+                System.out.println("messaggio server:" + messaggioIn);
             } catch (IOException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
