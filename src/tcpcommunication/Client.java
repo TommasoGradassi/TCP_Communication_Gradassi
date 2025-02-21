@@ -17,6 +17,8 @@ import java.util.logging.Logger;
  * @author Gradassi Tommaso
  */
 public class Client {
+   public static final String BLUE="\u001B[34m";
+   public static final String RESET="\u001B[0m";
     String nome;
     String colore;
     Socket socket;
@@ -34,7 +36,7 @@ public class Client {
      public void connetti(String nomeServer,int porta){
       try {
           socket=new Socket(nomeServer,porta);
-          System.out.println("1) connessione avvenuta con il server");
+          System.out.println(BLUE+"1) connessione avvenuta con il server"+RESET);
       }
       catch(ConnectException ex){
           System.err.println("Errore server non connesso");
@@ -49,7 +51,7 @@ public class Client {
              streamOut=new PrintWriter(os);
              streamOut.flush();
              messaggioOut="Eccomi";
-             System.out.println(messaggioOut);
+             System.out.println(BLUE+messaggioOut+RESET);
              streamOut.println(messaggioOut);
              streamOut.flush();
              System.out.println(messaggioOut);
@@ -66,7 +68,7 @@ public class Client {
                 is=socket.getInputStream();
                 streamIn=new Scanner(is);
                 messaggioIn=streamIn.nextLine();
-                System.out.println("messaggio server:" + messaggioIn);
+                System.out.println(BLUE+"messaggio server:" + messaggioIn+RESET);
             } catch (IOException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -75,7 +77,7 @@ public class Client {
      if (socket !=null) {
          try {
              socket.close();
-             System.out.println("4) chiusura connessione con il server");
+             System.out.println(BLUE+"4) chiusura connessione con il server"+RESET);
          } catch (IOException e) {
              throw new RuntimeException(e);
          }
