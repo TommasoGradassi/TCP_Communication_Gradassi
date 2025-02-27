@@ -14,7 +14,9 @@ import java.util.logging.Logger;
  *
  * @author Tommaso Gradassi
  */
-public class Server {  
+public class Server {
+    public static final String RED = "\u001B[31m";
+    public static final String RESET="\u001B[0m";
     ServerSocket serverSocket;
     Socket clientSocket;
     int porta;
@@ -28,29 +30,29 @@ public class Server {
         this.porta=porta;
         try {
             serverSocket=new ServerSocket(porta);
-            System.out.println("1) server in ascolto");
+            System.out.println(RED+"1) server in ascolto"+RESET);
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("errore nella fase di ascolto");
+            System.err.println(RED+"errore nella fase di ascolto"+RESET);
             
         }
  }
     public Socket attendi(){
         try {
             clientSocket = serverSocket.accept();
-            System.out.println("Data Socket creato, connessione avvenuta");
+            System.out.println(RED+"Data Socket creato, connessione avvenuta"+RESET);
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Problemi di connessione con il client");
+            System.err.println(RED+"Problemi di connessione con il client"+RESET);
         } catch(SecurityException ex){
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("non si ha il permesso per accedere a socket");
+            System.err.println(RED+"non si ha il permesso per accedere a socket"+RESET);
         } /*catch(UnknownHostException ex){
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             System.err.println("IP host non individuabile");
         }*/catch(IllegalArgumentException ex){
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Il metodo ha ricevuto un parametro non valido");
+            System.err.println(RED+"Il metodo ha ricevuto un parametro non valido"+RESET);
         }
         return clientSocket;
     }
@@ -68,9 +70,9 @@ public class Server {
         throw new RuntimeException(e);
     }
     streamIn=new Scanner(is);
-   System.out.println("sto leggeggendo il messaggio del client");
+   System.out.println(RED+"sto leggeggendo il messaggio del client"+RESET);
    messaggioIn=streamIn.next();
-   System.out.println("messaggio del client"+ messaggioIn);
+   System.out.println(RED+"messaggio del client"+ messaggioIn+RESET);
    System.out.println("-----");
 }
    public void scrivi(){
@@ -79,8 +81,8 @@ public class Server {
                PrintWriter streamOut = new PrintWriter(os);
                InputStream is = clientSocket.getInputStream();
                 streamIn = new Scanner(is);
-               System.out.println("messaggio   al client");
-               String messaggioOut = "ciao";
+               System.out.println(RED+"messaggio   al client"+RESET);
+               String messaggioOut = RED+"ciao"+RESET;
                streamOut.println(messaggioOut);
                streamOut.flush();
            } catch (IOException e) {
@@ -92,18 +94,18 @@ public class Server {
    public void chiudi(){
     try {
         clientSocket.close();
-        System.out.println("Chiusura socket con client avvenuta");
+        System.out.println(RED+"Chiusura socket con client avvenuta"+RESET);
     } catch (IOException e) {
-        System.err.println("Errore nella chiusura con il server");
+        System.err.println(RED+"Errore nella chiusura con il server"+RESET);
     } catch(SecurityException e){
         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, e);
-        System.err.println("non si ha il permesso per accedere a chiudi");
+        System.err.println(RED+"non si ha il permesso per accedere a chiudi"+RESET);
     }
    }
    public void termina() {
     try {
         serverSocket.close();
-        System.out.println("6) chiusura Server");
+        System.out.println(RED+"6) chiusura Server"+RESET);
     } catch (IOException ex) {
         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
     }

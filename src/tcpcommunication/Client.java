@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Gradassi Tommaso
  */
-public class Client {
+public class Client implements Runnable{
    public static final String BLUE="\u001B[34m";
    public static final String RESET="\u001B[0m";
     String nome;
@@ -28,11 +28,22 @@ public class Client {
     Scanner streamIn = null;
     String messaggioIn;
     String messaggioOut;
- public Client(String nome,String colore){
+    int porta;
+    String nomeServer;
+
+ public Client(String nome, String colore, int porta, String nomeServer){
    this.nome=nome;
    this.colore=colore;
+   this.porta=porta;
+   this.nomeServer=nomeServer;
  }
- 
+
+ public void run() {
+     connetti(nomeServer,porta);
+     scrivi();
+     leggi();
+     chiudi();
+ }
      public void connetti(String nomeServer,int porta){
       try {
           socket=new Socket(nomeServer,porta);
@@ -52,7 +63,7 @@ public class Client {
              streamOut.flush();
              messaggioOut="Eccomi";
              System.out.println(BLUE+messaggioOut+RESET);
-             streamOut.println(messaggioOut);
+             streamOut.println(BLUE+messaggioOut+RESET);
              streamOut.flush();
              System.out.println(messaggioOut);
         }
